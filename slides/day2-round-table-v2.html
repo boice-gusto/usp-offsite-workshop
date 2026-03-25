@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 2: Round Table</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #F45D48;
+      --teal: #0A8080;
+      --navy: #0F1E28;
+      --text: #F0F4F7;
+      --muted: #8FA8B8;
+      --card: rgba(26, 46, 59, 0.7);
+      --border: rgba(143, 168, 184, 0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, #162530 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .slides { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 60px 100px;
+      display: none;
+      flex-direction: column;
+    }
+    .slide.active { display: flex; }
+
+    .mega { font-size: 5.5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+    .hero { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+    .title { font-size: 2.5rem; font-weight: 600; letter-spacing: -0.01em; }
+    .subtitle { font-size: 1.4rem; font-weight: 400; color: var(--muted); }
+    .body { font-size: 1.3rem; line-height: 1.6; }
+    .small { font-size: 1rem; color: var(--muted); }
+
+    .red { color: var(--red); }
+    .teal { color: var(--teal); }
+    .muted { color: var(--muted); }
+
+    .center { text-align: center; justify-content: center; align-items: center; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; flex: 1; }
+    .stack { display: flex; flex-direction: column; gap: 24px; }
+    .row { display: flex; gap: 24px; align-items: center; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .card.highlight { border-color: var(--red); background: rgba(244, 93, 72, 0.08); }
+    .card.teal-border { border-color: var(--teal); background: rgba(10, 128, 128, 0.05); }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: rgba(244, 93, 72, 0.15);
+      color: var(--red);
+    }
+    .tag.teal { background: rgba(10, 128, 128, 0.15); color: var(--teal); }
+
+    .question-list {
+      list-style: none;
+      padding: 0;
+    }
+    .question-list li {
+      font-size: 1.4rem;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .question-list li:last-child { border-bottom: none; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .big-number {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .checkbox-list {
+      list-style: none;
+      padding: 0;
+    }
+    .checkbox-list li {
+      font-size: 1.2rem;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .checkbox-list li::before {
+      content: '☐';
+      font-size: 1.4rem;
+    }
+
+    .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--red); transition: width 0.3s; }
+    .slide-num { position: fixed; bottom: 24px; right: 40px; font-size: 0.85rem; color: var(--muted); }
+    .logo { position: fixed; top: 32px; right: 48px; font-size: 1.4rem; font-weight: 700; color: var(--red); letter-spacing: -0.02em; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide.active > * { animation: fadeUp 0.4s ease-out both; }
+    .slide.active > *:nth-child(2) { animation-delay: 0.1s; }
+    .slide.active > *:nth-child(3) { animation-delay: 0.2s; }
+  </style>
+</head>
+<body>
+  <div class="logo">gusto</div>
+  <div class="slides">
+
+    <!-- 1: Title -->
+    <section class="slide active center">
+      <h1 class="hero">Round Table</h1>
+      <p class="subtitle" style="margin-top: 16px;">From Build to Team Strategy</p>
+    </section>
+
+    <!-- 2: Reflection -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 24px;">Quick reflection</p>
+      <h1 class="hero">What did you <span class="red">build</span>?</h1>
+      <div class="card" style="margin-top: 40px; max-width: 600px; text-align: left;">
+        <ul class="question-list">
+          <li>What skill, hook, or agent?</li>
+          <li>What will it <span class="teal">save you</span>?</li>
+          <li>Who else could use it?</li>
+        </ul>
+      </div>
+      <p class="small" style="margin-top: 24px;">2 minutes — jot it down</p>
+    </section>
+
+    <!-- 3: The Question -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 16px;">You built something.</p>
+      <h1 class="mega"><span class="red">Now what?</span></h1>
+    </section>
+
+    <!-- 4: Block 1 - Adoption -->
+    <section class="slide">
+      <div class="row" style="margin-bottom: 40px;">
+        <span class="tag">Block 1</span>
+        <h2 class="title">Getting Your Team On Board</h2>
+        <span class="small" style="margin-left: auto;">20 min</span>
+      </div>
+      <div class="card" style="max-width: 900px;">
+        <ul class="question-list">
+          <li>Your plugin is ready. <span class="red">Who needs it?</span></li>
+          <li>Who's <span class="teal">all-in</span> on Claude? Who's hesitant?</li>
+          <li>What would get the hesitant folks to try it?</li>
+          <li>Who could be a <span class="red">Claude champion</span> for your squad?</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5: Block 2 - Guardrails -->
+    <section class="slide">
+      <div class="row" style="margin-bottom: 40px;">
+        <span class="tag teal">Block 2</span>
+        <h2 class="title">Where NOT to Use Claude</h2>
+        <span class="small" style="margin-left: auto;">20 min</span>
+      </div>
+      <div class="card" style="max-width: 900px;">
+        <ul class="question-list">
+          <li>Let's build the list: <span class="red">where should we NOT use Claude?</span></li>
+          <li>Business rules, compliance, PII — <span class="teal">where's the line?</span></li>
+          <li>What's your tolerance for wrong output if you can revert?</li>
+          <li>Should your plugin have <span class="red">guardrails built in</span>?</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6: Block 3 - Strategy -->
+    <section class="slide">
+      <div class="row" style="margin-bottom: 40px;">
+        <span class="tag">Block 3</span>
+        <h2 class="title">Team Strategy</h2>
+        <span class="small" style="margin-left: auto;">20 min</span>
+      </div>
+      <div class="card" style="max-width: 900px;">
+        <ul class="question-list">
+          <li>What would <span class="red">"alignment across USP PE"</span> look like?</li>
+          <li>New PE joins next month — <span class="teal">how do you onboard them?</span></li>
+          <li>Should we have a <span class="red">shared team plugin</span>?</li>
+          <li>What's working that we can share <span class="teal">right now</span>?</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7: Capture -->
+    <section class="slide">
+      <h2 class="title" style="margin-bottom: 40px;">Capture</h2>
+      <div class="grid-2">
+        <div class="card highlight" style="min-height: 300px;">
+          <h3 style="font-size: 1.5rem; margin-bottom: 24px;" class="red">Don't Use Claude For</h3>
+          <p class="muted">(capture from discussion)</p>
+        </div>
+        <div class="card teal-border" style="min-height: 300px;">
+          <h3 style="font-size: 1.5rem; margin-bottom: 24px;" class="teal">Do Use Claude For</h3>
+          <p class="muted">(capture from discussion)</p>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 24px; text-align: center;">This becomes your team's documentation.</p>
+    </section>
+
+    <!-- 8: Commitment -->
+    <section class="slide center">
+      <h2 class="title" style="margin-bottom: 40px;">Your Commitment</h2>
+      <div class="card" style="max-width: 600px; text-align: left;">
+        <p class="body" style="margin-bottom: 24px;"><span class="red">This week</span> I will:</p>
+        <ul class="checkbox-list">
+          <li>Ship my plugin to ___________</li>
+          <li>Help ___________ get started</li>
+          <li>Add ___________ to my workflow</li>
+        </ul>
+      </div>
+      <p class="small" style="margin-top: 32px;">Write it down. Tell a partner.</p>
+    </section>
+
+    <!-- 9: Next Steps -->
+    <section class="slide">
+      <h2 class="title" style="margin-bottom: 48px; text-align: center;">Next Steps</h2>
+      <div class="grid-3" style="max-width: 1000px; margin: 0 auto;">
+        <div class="card" style="text-align: center;">
+          <p class="big-number red">1</p>
+          <p class="body" style="margin-top: 16px;">This Week</p>
+          <p class="small" style="margin-top: 8px;">Ship to GitHub<br>(even if rough)</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <p class="big-number teal">2</p>
+          <p class="body" style="margin-top: 16px;">This Month</p>
+          <p class="small" style="margin-top: 8px;">Get 2 teammates<br>using it</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <p class="big-number">∞</p>
+          <p class="body" style="margin-top: 16px;">Ongoing</p>
+          <p class="small" style="margin-top: 8px;">Office hours<br>available</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10: Close -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 24px;">You built tools today.</p>
+      <h1 class="mega"><span class="red">Ship them.</span></h1>
+      <p class="body muted" style="margin-top: 48px; font-style: italic; max-width: 600px;">
+        "Now is a time to figure out how to automate and be lazy."
+      </p>
+    </section>
+
+  </div>
+
+  <div class="progress" id="progress"></div>
+  <div class="slide-num" id="slideNum"></div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    const show = n => {
+      slides[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      document.getElementById('progress').style.width = ((current + 1) / slides.length * 100) + '%';
+      document.getElementById('slideNum').textContent = (current + 1) + ' / ' + slides.length;
+    };
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1);
+    });
+    document.addEventListener('click', e => show(e.clientX > innerWidth / 2 ? current + 1 : current - 1));
+    show(0);
+  </script>
+</body>
+</html>

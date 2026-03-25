@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 1: Build Something Real</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #F45D48;
+      --teal: #0A8080;
+      --navy: #0F1E28;
+      --text: #F0F4F7;
+      --muted: #8FA8B8;
+      --card: rgba(26, 46, 59, 0.7);
+      --border: rgba(143, 168, 184, 0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, #162530 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .slides { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 60px 100px;
+      display: none;
+      flex-direction: column;
+    }
+    .slide.active { display: flex; }
+
+    /* Typography */
+    .mega { font-size: 6rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+    .hero { font-size: 4rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+    .title { font-size: 2.75rem; font-weight: 600; letter-spacing: -0.01em; }
+    .subtitle { font-size: 1.5rem; font-weight: 400; color: var(--muted); }
+    .body { font-size: 1.35rem; }
+    .small { font-size: 1rem; color: var(--muted); }
+
+    .red { color: var(--red); }
+    .teal { color: var(--teal); }
+    .muted { color: var(--muted); }
+
+    /* Layout */
+    .center { text-align: center; justify-content: center; align-items: center; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; flex: 1; }
+    .stack { display: flex; flex-direction: column; gap: 24px; }
+    .row { display: flex; gap: 24px; align-items: center; }
+    .flex-1 { flex: 1; }
+
+    /* Components */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .card.highlight { border-color: var(--red); background: rgba(244, 93, 72, 0.08); }
+    .card.teal-border { border-color: var(--teal); }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: rgba(244, 93, 72, 0.15);
+      color: var(--red);
+    }
+    .tag.teal { background: rgba(10, 128, 128, 0.15); color: var(--teal); }
+
+    code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: rgba(0,0,0,0.4);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: rgba(0,0,0,0.5);
+      padding: 24px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    pre code { background: none; padding: 0; }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .icon-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .icon-badge {
+      padding: 12px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .output-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    .output-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .output-box.good { border: 2px solid var(--teal); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+    th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    tr.highlight { background: rgba(244, 93, 72, 0.1); }
+
+    /* Progress */
+    .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--red); transition: width 0.3s; }
+    .slide-num { position: fixed; bottom: 24px; right: 40px; font-size: 0.85rem; color: var(--muted); }
+    .logo { position: fixed; top: 32px; right: 48px; font-size: 1.4rem; font-weight: 700; color: var(--red); letter-spacing: -0.02em; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide.active > * { animation: fadeUp 0.4s ease-out both; }
+    .slide.active > *:nth-child(2) { animation-delay: 0.1s; }
+    .slide.active > *:nth-child(3) { animation-delay: 0.2s; }
+  </style>
+</head>
+<body>
+  <div class="logo">gusto</div>
+  <div class="slides">
+
+    <!-- 1: Title -->
+    <section class="slide active center">
+      <div class="tag" style="margin-bottom: 24px;">Day 1 Workshop</div>
+      <h1 class="hero">Build Something <span class="red">Real</span></h1>
+      <p class="subtitle" style="margin-top: 16px;">USP PE OffSite</p>
+    </section>
+
+    <!-- 2: The Problem -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 16px;">You've done the basics.</p>
+      <h1 class="hero">Today we <span class="red">ship</span>.</h1>
+    </section>
+
+    <!-- 3: Level 1 - The Old Way -->
+    <section class="slide">
+      <div class="row" style="margin-bottom: 32px;">
+        <span class="tag">Level 1</span>
+        <h2 class="title">The Manual Prompt</h2>
+      </div>
+      <div class="split">
+        <div>
+          <pre><code>claude "Look at the sfdc codebase
+(/Users/jonathan.boice/Documents/GitHub/sfdc/)
+and summarize this JIRA ticket
+(/Users/.../ticket.pdf)
+and check for BENOPS dependencies"</code></pre>
+          <div class="stack" style="margin-top: 32px;">
+            <p class="body muted">⚠️ Hardcoded paths</p>
+            <p class="body muted">⚠️ Manual file export</p>
+            <p class="body muted">⚠️ Retype every time</p>
+          </div>
+        </div>
+        <div class="card">
+          <p class="small" style="margin-bottom: 16px;">OUTPUT: ~2 min, unstructured</p>
+          <div class="output-box">
+            JIRA Ticket Summary: USPRTE-909<br><br>
+            Title: Add New Picklist Values...<br>
+            Status: Done/Resolved<br><br>
+            Scope of Changes:<br>
+            1. Global Value Set...<br>
+            2. Custom Field...<br><br>
+            BENOPS Dependencies:<br>
+            The codebase has significant BenOps dependencies...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4: MCPs -->
+    <section class="slide">
+      <div class="row" style="margin-bottom: 32px;">
+        <span class="tag teal">Level 2</span>
+        <h2 class="title">Connect to Your Systems</h2>
+      </div>
+      <p class="body muted" style="margin-bottom: 32px;">MCPs let Claude fetch data directly. No exports. No paths.</p>
+      <div class="icon-row">
+        <div class="icon-badge"><strong>JIRA</strong> — tickets</div>
+        <div class="icon-badge"><strong>Slack</strong> — channels</div>
+        <div class="icon-badge"><strong>GitHub</strong> — PRs</div>
+        <div class="icon-badge"><strong>Datadog</strong> — logs</div>
+        <div class="icon-badge"><strong>Workbench</strong> — components</div>
+        <div class="icon-badge"><strong>Glean</strong> — knowledge</div>
+      </div>
+      <div class="card teal-border" style="margin-top: 40px; max-width: 700px;">
+        <pre style="background: transparent; padding: 0;"><code>claude "Summarize JIRA ticket USPRTE-924
+and check for BENOPS dependencies"</code></pre>
+        <p class="small" style="margin-top: 16px;">No paths. Claude fetches the ticket via JIRA MCP.</p>
+      </div>
+    </section>
+
+    <!-- 5: Level 3 - Skills -->
+    <section class="slide">
+      <div class="row" style="margin-bottom: 32px;">
+        <span class="tag" style="background: rgba(244, 93, 72, 0.2);">Level 3</span>
+        <h2 class="title">Skills = Consistent Output</h2>
+      </div>
+      <div class="output-compare">
+        <div>
+          <p class="small" style="margin-bottom: 12px;">v1: Just save the prompt</p>
+          <code>/jira-analyzer-01 USPRTE-924</code>
+          <div class="output-box" style="margin-top: 16px;">
+            USPRTE-924 Summary<br><br>
+            Ticket: QA for USPRTE-879<br>
+            Status: In Progress<br><br>
+            Feature: Re-Route from Care to BenOps<br><br>
+            Dependencies: None directly linked...
+          </div>
+          <p class="small" style="margin-top: 12px;">Output varies every time</p>
+        </div>
+        <div>
+          <p class="small" style="margin-bottom: 12px;">v2: Structured workflow</p>
+          <code>/jira-analyzer-02 USPRTE-924 CARE</code>
+          <div class="output-box good" style="margin-top: 16px;">
+            <strong>Complexity Score: Medium</strong><br>
+            │ Technical │ M │ Salesforce flows...<br>
+            │ Domain    │ M │ 5 record types...<br><br>
+            <strong>Dependencies</strong><br>
+            │ Parent │ USPRTE-879 │ In Progress<br>
+            │ External │ Salesforce │ ❌ Blocked<br><br>
+            <strong>Talking Points</strong><br>
+            1. Blocker: Email insertion failing...
+          </div>
+          <p class="small teal" style="margin-top: 12px;">✓ Tables ✓ Scores ✓ Recommendations</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6: The Structure -->
+    <section class="slide">
+      <h2 class="title" style="margin-bottom: 40px;">It's Just Folders</h2>
+      <div class="split">
+        <pre style="font-size: 1.1rem;"><code>my-project/
+└── .claude/
+    └── skills/
+        └── my-skill/
+            └── SKILL.md</code></pre>
+        <div class="stack">
+          <p class="body">Create the folder. Write the prompt.</p>
+          <p class="body">Claude finds it automatically.</p>
+          <div class="card highlight" style="margin-top: 16px;">
+            <code style="font-size: 1.1rem;">/my-skill</code>
+            <p class="small" style="margin-top: 8px;">That's your new command.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7: Your Turn -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 16px;">50 minutes</p>
+      <h1 class="mega red">BUILD</h1>
+      <p class="body muted" style="margin-top: 32px; max-width: 600px;">
+        Have a repetitive task? <strong>Skillify it.</strong><br>
+        Need ideas? Summarizer, Team Health, Fuzzy→Spec
+      </p>
+    </section>
+
+    <!-- 8: Getting Started -->
+    <section class="slide">
+      <h2 class="title" style="margin-bottom: 40px;">Getting Started</h2>
+      <div class="grid-3">
+        <div class="card">
+          <p class="small muted" style="margin-bottom: 12px;">Step 1</p>
+          <h3 style="font-size: 1.3rem; margin-bottom: 16px;">Create Structure</h3>
+          <pre style="font-size: 0.8rem;"><code>mkdir -p .claude/skills/my-skill
+touch .claude/skills/my-skill/SKILL.md</code></pre>
+        </div>
+        <div class="card">
+          <p class="small muted" style="margin-bottom: 12px;">Step 2</p>
+          <h3 style="font-size: 1.3rem; margin-bottom: 16px;">Write Your Skill</h3>
+          <p class="body">Add your prompt + output format to SKILL.md</p>
+        </div>
+        <div class="card highlight">
+          <p class="small muted" style="margin-bottom: 12px;">Step 3</p>
+          <h3 style="font-size: 1.3rem; margin-bottom: 16px;">Use It</h3>
+          <pre style="font-size: 0.8rem; background: transparent;"><code>claude
+/my-skill</code></pre>
+        </div>
+      </div>
+      <p class="body muted" style="margin-top: 40px; text-align: center;">Facilitators are here to help. Ask questions!</p>
+    </section>
+
+    <!-- 9: Demo Time -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 16px;">Demo Showcase</p>
+      <h1 class="hero">What did you build?</h1>
+      <p class="body muted" style="margin-top: 24px;">4-5 volunteers • 2 min each</p>
+    </section>
+
+    <!-- 10: Close -->
+    <section class="slide center">
+      <p class="subtitle" style="margin-bottom: 16px;">Find repetitive work.</p>
+      <h1 class="mega"><span class="red">SKILLIFY</span> it.</h1>
+      <p class="body muted" style="margin-top: 40px; font-style: italic;">"If you do it more than once, automate it."</p>
+    </section>
+
+  </div>
+
+  <div class="progress" id="progress"></div>
+  <div class="slide-num" id="slideNum"></div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    const show = n => {
+      slides[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      document.getElementById('progress').style.width = ((current + 1) / slides.length * 100) + '%';
+      document.getElementById('slideNum').textContent = (current + 1) + ' / ' + slides.length;
+    };
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1);
+    });
+    document.addEventListener('click', e => show(e.clientX > innerWidth / 2 ? current + 1 : current - 1));
+    show(0);
+  </script>
+</body>
+</html>
