@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+._*
+
+# Claude Code local settings (contains user-specific permissions)
+.claude/settings.local.json
+
+.env
+.env.local
+
+# Scratchpad / working files
+scratchpad/
+demo/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+speak-enabled
+speak-done-enabled
+my-plugin
