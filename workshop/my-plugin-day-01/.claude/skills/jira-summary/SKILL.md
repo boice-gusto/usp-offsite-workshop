@@ -1,5 +1,5 @@
 ---
-name: day01-jira-analyzer-02
+name: jira-summary
 description: Analyzes JIRA tickets to assess complexity, dependencies, business value, ROI, and stakeholder impact. Use when asked to summarize, analyze, or evaluate JIRA tickets.
 arguments:
   - name: ticket
@@ -15,12 +15,12 @@ arguments:
 ## Usage
 
 ```
-/day01-jira-analyzer-02 <TICKET_ID> [TEAM]
+/jira-summary <TICKET_ID> [TEAM]
 ```
 
 **Examples:**
-- `/day01-jira-analyzer-02 USPRTE-924` — analyzes ticket (general analysis, no team-specific dependency check)
-- `/day01-jira-analyzer-02 USPRTE-924 CARE` — analyzes ticket + checks cross-team dependencies with CARE
+- `/jira-summary USPRTE-924` — analyzes ticket (general analysis, no team-specific dependency check)
+- `/jira-summary USPRTE-924 CARE` — analyzes ticket + checks cross-team dependencies with CARE
 
 ## Purpose
 
